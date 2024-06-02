@@ -1,0 +1,10 @@
+flutter_native_splash:
+  color: "#171717"
+  branding_mode: bottom
+  android: true
+  ios: true
+  web: true
+
+  android_12:
+    color: "#171717"
+    icon_background_color: "#171717"
