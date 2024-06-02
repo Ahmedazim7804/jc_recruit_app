@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 
 class AuthErrorDialog extends StatelessWidget {
@@ -34,7 +35,9 @@ class AuthErrorDialog extends StatelessWidget {
                 )),
             const SizedBox(height: 16),
             ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  context.pop();
+                },
                 style: ElevatedButton.styleFrom(
                   elevation: 6,
                   padding:

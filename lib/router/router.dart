@@ -15,33 +15,38 @@ enum AppRoutes {
   const AppRoutes(this.value);
 }
 
-final myRouter = GoRouter(initialLocation: '/', routes: [
-  GoRoute(
-    name: AppRoutes.START_PAGE.name,
-    path: AppRoutes.START_PAGE.value,
-    pageBuilder: (context, state) {
-      return const MaterialPage(child: StartPage());
-    },
-  ),
-  GoRoute(
-    name: AppRoutes.SIGN_UP.name,
-    path: AppRoutes.SIGN_UP.value,
-    pageBuilder: (context, state) {
-      return const MaterialPage(child: SignUpPage());
-    },
-  ),
-  GoRoute(
-    name: AppRoutes.SIGN_IN.name,
-    path: AppRoutes.SIGN_IN.value,
-    pageBuilder: (context, state) {
-      return const MaterialPage(child: SignInPage());
-    },
-  ),
-  GoRoute(
-    name: AppRoutes.HOME_SCREEN.name,
-    path: AppRoutes.HOME_SCREEN.value,
-    pageBuilder: (context, state) {
-      return const MaterialPage(child: HomeScreen());
-    },
-  )
-]);
+GoRouter getMyRouter(bool loggedIn) {
+  String initialLocation =
+      loggedIn ? AppRoutes.HOME_SCREEN.value : AppRoutes.START_PAGE.value;
+
+  return GoRouter(initialLocation: initialLocation, routes: [
+    GoRoute(
+      name: AppRoutes.START_PAGE.name,
+      path: AppRoutes.START_PAGE.value,
+      pageBuilder: (context, state) {
+        return const MaterialPage(child: StartPage());
+      },
+    ),
+    GoRoute(
+      name: AppRoutes.SIGN_UP.name,
+      path: AppRoutes.SIGN_UP.value,
+      pageBuilder: (context, state) {
+        return const MaterialPage(child: SignUpPage());
+      },
+    ),
+    GoRoute(
+      name: AppRoutes.SIGN_IN.name,
+      path: AppRoutes.SIGN_IN.value,
+      pageBuilder: (context, state) {
+        return const MaterialPage(child: SignInPage());
+      },
+    ),
+    GoRoute(
+      name: AppRoutes.HOME_SCREEN.name,
+      path: AppRoutes.HOME_SCREEN.value,
+      pageBuilder: (context, state) {
+        return const MaterialPage(child: HomeScreen());
+      },
+    )
+  ]);
+}
