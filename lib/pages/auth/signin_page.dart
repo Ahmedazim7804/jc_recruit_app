@@ -91,79 +91,84 @@ class _SignInPageState extends State<SignInPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Stack(children: [
-              SvgPicture.asset(
-                'assets/shape.svg',
-                color: const Color(0xff2846A8),
-              ),
-              Positioned(
-                  top: 128,
-                  left: 8,
-                  child: SvgPicture.asset(
-                    'assets/logo.svg',
-                    width: 48,
-                    height: 48,
-                    color: Colors.white.withOpacity(0.75),
-                  )),
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          child: Column(
+            children: [
+              Stack(children: [
+                SvgPicture.asset(
+                  'assets/shape.svg',
+                  color: const Color(0xff2846A8),
+                ),
+                Positioned(
+                    top: 128,
+                    left: 8,
+                    child: SvgPicture.asset(
+                      'assets/logo.svg',
+                      width: 48,
+                      height: 48,
+                      color: Colors.white.withOpacity(0.75),
+                    )),
+                Padding(
+                    padding: EdgeInsets.symmetric(
+                        vertical: MediaQuery.of(context).padding.top),
+                    child: IconButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        icon: const Icon(
+                          Icons.arrow_back,
+                          color: Colors.white,
+                        ))),
+              ]),
               Padding(
-                  padding: EdgeInsets.symmetric(
-                      vertical: MediaQuery.of(context).padding.top),
-                  child: IconButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      icon: const Icon(
-                        Icons.arrow_back,
-                        color: Colors.white,
-                      ))),
-            ]),
-            Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Text(
-                        "Login",
-                        style: TextStyle(
-                            fontSize: 24,
-                            color: Colors.white.withOpacity(0.75)),
-                      ),
-                      const SizedBox(height: 16),
-                      InputWidget(
-                          icon: Icons.email_outlined,
-                          hintText: "Enter your email",
-                          label: "Email",
-                          keyboardType: TextInputType.emailAddress,
-                          validator: emailIsValid,
-                          controller: emailController),
-                      InputWidget(
-                        icon: Icons.lock_outlined,
-                        hintText: "Enter your password",
-                        label: "Password",
-                        obscureText: true,
-                        keyboardType: TextInputType.visiblePassword,
-                        validator: passwordIsValid,
-                        controller: passwordController,
-                      ),
-                      ElevatedButton(
-                          onPressed: submitForm,
-                          style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(vertical: 20),
-                              backgroundColor: const Color(0xff2846A8),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5))),
-                          child: Text("Submit",
-                              style: TextStyle(
-                                  color: Colors.white.withOpacity(0.75)))),
-                    ],
-                  ),
-                )),
-            const DevcommLogo()
-          ],
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Text(
+                          "Login",
+                          style: TextStyle(
+                              fontSize: 24,
+                              color: Colors.white.withOpacity(0.75)),
+                        ),
+                        const SizedBox(height: 16),
+                        InputWidget(
+                            icon: Icons.email_outlined,
+                            hintText: "Enter your email",
+                            label: "Email",
+                            keyboardType: TextInputType.emailAddress,
+                            validator: emailIsValid,
+                            controller: emailController),
+                        InputWidget(
+                          icon: Icons.lock_outlined,
+                          hintText: "Enter your password",
+                          label: "Password",
+                          obscureText: true,
+                          keyboardType: TextInputType.visiblePassword,
+                          validator: passwordIsValid,
+                          controller: passwordController,
+                        ),
+                        ElevatedButton(
+                            onPressed: submitForm,
+                            style: ElevatedButton.styleFrom(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 20),
+                                backgroundColor: const Color(0xff2846A8),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5))),
+                            child: Text("Submit",
+                                style: TextStyle(
+                                    color: Colors.white.withOpacity(0.75)))),
+                      ],
+                    ),
+                  )),
+              const Spacer(),
+              const DevcommLogo()
+            ],
+          ),
         ),
       ),
     );
