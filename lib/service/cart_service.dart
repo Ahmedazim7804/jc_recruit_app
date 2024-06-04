@@ -14,12 +14,21 @@ class CartService {
         .snapshots();
   }
 
-  Future<void> addToCart(String cartItemId, int change) {
-    return _firestore
+  Future<void> addToCart(String cartItemId, int change) async {
+    await _firestore
         .collection('carts')
         .doc(userId)
         .collection('items')
         .doc(cartItemId)
-        .set({'quantity': FieldValue.increment(change)});
+        .update({'quantity': FieldValue.increment(change)});
+  }
+
+  Future<void> removeFromCart(String cartItemId) async {
+    await _firestore
+        .collection('carts')
+        .doc(userId)
+        .collection('items')
+        .doc(cartItemId)
+        .delete();
   }
 }

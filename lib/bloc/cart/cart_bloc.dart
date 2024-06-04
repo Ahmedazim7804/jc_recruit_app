@@ -16,6 +16,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     on<AddToCart>(_handleAddToCart);
   }
 
+  List<CartItem> _cartItems = [];
+
   final CartRepository cartRepository = CartRepository(
       FirebaseFirestore.instance,
       userId: FirebaseAuth.instance.currentUser!.uid);
@@ -28,16 +30,26 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       cartRepository.getCart(),
       onData: (data) {
         if (data.isEmpty) {
+          _cartItems = [];
           return CartEmpty();
         }
 
+        _cartItems = data;
         return CartLoaded(data);
       },
     );
   }
 
   void _handleAddToCart(AddToCart event, Emitter<CartState> emit) async {
-    emit(CartLoading());
+    int quantity = _cartItems
+        .where((element) => element.foodId == event.foodItem.id)
+        .first
+        .quantity;
+
+    if (quantity == 1 && event.change.value == -1) {
+      await cartRepository.removeFromCart(event.foodItem.id);
+      return;
+    }
 
     await cartRepository.addToCart(event.foodItem.id, event.change.value);
   }

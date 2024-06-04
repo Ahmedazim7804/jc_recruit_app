@@ -18,4 +18,8 @@ class CartRepository {
   Future<void> addToCart(String cartItemId, int change) async {
     await _cartService.addToCart(cartItemId, change);
   }
+
+  Future<void> removeFromCart(String cartItemId) async {
+    await _cartService.removeFromCart(cartItemId);
+  }
 }
