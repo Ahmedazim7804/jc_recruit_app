@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:jc_recruit_app/bloc/cart/cart_bloc.dart';
+import 'package:jc_recruit_app/bloc/food/food_bloc.dart';
 import 'package:jc_recruit_app/pages/auth/signin_page.dart';
 import 'package:jc_recruit_app/pages/auth/signup_page.dart';
+import 'package:jc_recruit_app/pages/cart_page.dart';
 import 'package:jc_recruit_app/pages/home_screen.dart';
 import 'package:jc_recruit_app/pages/starting_page.dart';
 
@@ -9,6 +13,7 @@ enum AppRoutes {
   SIGN_UP('/auth/sign_up'),
   SIGN_IN('/auth/sign_in'),
   START_PAGE('/'),
+  CART_PAGE('/home/cart'),
   HOME_SCREEN('/home');
 
   final String value;
@@ -41,12 +46,27 @@ GoRouter getMyRouter(bool loggedIn) {
         return const MaterialPage(child: SignInPage());
       },
     ),
-    GoRoute(
-      name: AppRoutes.HOME_SCREEN.name,
-      path: AppRoutes.HOME_SCREEN.value,
-      pageBuilder: (context, state) {
-        return const MaterialPage(child: HomeScreen());
-      },
-    )
+    ShellRoute(
+        builder: (_, __, child) => MultiBlocProvider(providers: [
+              BlocProvider(create: (context) => FoodBloc()..add(GetFoods())),
+              BlocProvider(
+                  create: (context) => CartBloc()..add(GetCartFromFirebase()))
+            ], child: child),
+        routes: [
+          GoRoute(
+            name: AppRoutes.HOME_SCREEN.name,
+            path: AppRoutes.HOME_SCREEN.value,
+            pageBuilder: (context, state) {
+              return const MaterialPage(child: HomeScreen());
+            },
+          ),
+          GoRoute(
+            name: AppRoutes.CART_PAGE.name,
+            path: AppRoutes.CART_PAGE.value,
+            pageBuilder: (context, state) {
+              return const MaterialPage(child: CartPage());
+            },
+          ),
+        ])
   ]);
 }
