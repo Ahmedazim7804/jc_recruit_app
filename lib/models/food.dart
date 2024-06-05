@@ -5,7 +5,7 @@ class FoodItem extends Equatable {
   final String name;
   final String imageUrl;
   final int price;
-  final FoodCategory category;
+  final String categoryId;
   final bool available;
   final String? description;
   final String id;
@@ -16,7 +16,7 @@ class FoodItem extends Equatable {
     required this.name,
     required this.imageUrl,
     required this.price,
-    required this.category,
+    required this.categoryId,
     required this.available,
     this.quantity = 0,
     this.description = '',
@@ -28,20 +28,20 @@ class FoodItem extends Equatable {
       name: json['name'],
       imageUrl: json['image'],
       price: json['price'],
-      category: FoodCategory.fromValue(json['category']),
+      categoryId: json['category'],
       available: json['available'],
       description: json['description'] ?? "",
     );
   }
 
   @override
-  List<Object?> get props => [name, imageUrl, price, category, available];
+  List<Object?> get props => [name, imageUrl, price, categoryId, available];
 
   FoodItem copyWith({
     String? name,
     String? imageUrl,
     int? price,
-    FoodCategory? category,
+    String? categoryId,
     bool? available,
     String? description,
     String? id,
@@ -52,20 +52,10 @@ class FoodItem extends Equatable {
       name: name ?? this.name,
       imageUrl: imageUrl ?? this.imageUrl,
       price: price ?? this.price,
-      category: category ?? this.category,
+      categoryId: categoryId ?? this.categoryId,
       available: available ?? this.available,
       description: description ?? this.description,
       quantity: quantity ?? this.quantity,
     );
-  }
-
-  factory FoodItem.empty() {
-    return FoodItem(
-        id: "SDSD",
-        name: "sds",
-        imageUrl: "maggi",
-        price: 23,
-        category: FoodCategory.DAIRY,
-        available: true);
   }
 }

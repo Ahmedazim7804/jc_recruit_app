@@ -62,7 +62,7 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
     }
 
     return backupFood
-        .where((food) => _selectedCategoriesId.contains(food.category.value))
+        .where((food) => _selectedCategoriesId.contains(food.categoryId))
         .toSet();
   }
 
@@ -86,8 +86,7 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
       return;
     }
 
-    _selectedCategoriesId =
-        event.categories.map((e) => e.name.toLowerCase()).toList();
+    _selectedCategoriesId = event.categories.map((e) => e.id).toList();
 
     filterAndEmit(emitter);
   }
