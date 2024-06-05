@@ -20,7 +20,8 @@ class CartService {
         .doc(userId)
         .collection('items')
         .doc(cartItemId)
-        .update({'quantity': FieldValue.increment(change)});
+        .set({'quantity': FieldValue.increment(change)},
+            SetOptions(merge: true));
   }
 
   Future<void> removeFromCart(String cartItemId) async {

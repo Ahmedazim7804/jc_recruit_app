@@ -11,7 +11,7 @@ part 'cart_event.dart';
 part 'cart_state.dart';
 
 class CartBloc extends Bloc<CartEvent, CartState> {
-  CartBloc() : super(CartInitial()) {
+  CartBloc() : super(CartLoading()) {
     on<GetCartFromFirebase>(_handleGetCartFromFirebase);
     on<AddToCart>(_handleAddToCart);
   }
@@ -41,10 +41,16 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   }
 
   void _handleAddToCart(AddToCart event, Emitter<CartState> emit) async {
-    int quantity = _cartItems
+    final requiredItem = _cartItems
         .where((element) => element.foodId == event.foodItem.id)
-        .first
-        .quantity;
+        .firstOrNull;
+    late final int quantity;
+
+    if (requiredItem == null) {
+      quantity = 0;
+    } else {
+      quantity = requiredItem.quantity;
+    }
 
     if (quantity == 1 && event.change.value == -1) {
       await cartRepository.removeFromCart(event.foodItem.id);

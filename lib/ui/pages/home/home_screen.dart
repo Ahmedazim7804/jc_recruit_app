@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jc_recruit_app/router/router.dart';
-import 'package:jc_recruit_app/widgets/category_widget.dart';
-import 'package:jc_recruit_app/widgets/food_search.dart';
-import 'package:jc_recruit_app/widgets/food_widget.dart';
+import 'package:jc_recruit_app/ui/pages/home/widgets/category_widget.dart';
+import 'package:jc_recruit_app/ui/pages/home/widgets/food_search.dart';
+import 'package:jc_recruit_app/ui/pages/home/widgets/food_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

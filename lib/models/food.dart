@@ -23,13 +23,10 @@ class FoodItem extends Equatable {
   });
 
   factory FoodItem.fromJson(Map<String, dynamic> json, String id) {
-    String imageUrl =
-        (json['name'] as String).toLowerCase().replaceAll(' ', '_');
-
     return FoodItem(
       id: id,
       name: json['name'],
-      imageUrl: imageUrl,
+      imageUrl: json['image'],
       price: json['price'],
       category: FoodCategory.fromValue(json['category']),
       available: json['available'],

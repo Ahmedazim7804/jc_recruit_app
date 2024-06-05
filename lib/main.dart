@@ -1,12 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:jc_recruit_app/pages/starting_page.dart';
+import 'package:jc_recruit_app/ui/pages/starting_page.dart';
 import 'package:jc_recruit_app/router/router.dart';
 import 'package:jc_recruit_app/service/user_service.dart';
-import 'package:jc_recruit_app/theme.dart';
+import 'package:jc_recruit_app/ui/theme.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:jc_recruit_app/widgets/overlay_widget.dart';
+import 'package:jc_recruit_app/ui/common_widgets/overlay_widget.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'firebase_options.dart';

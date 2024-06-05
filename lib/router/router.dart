@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jc_recruit_app/bloc/cart/cart_bloc.dart';
+import 'package:jc_recruit_app/bloc/category/category_bloc.dart';
 import 'package:jc_recruit_app/bloc/food/food_bloc.dart';
-import 'package:jc_recruit_app/pages/auth/signin_page.dart';
-import 'package:jc_recruit_app/pages/auth/signup_page.dart';
-import 'package:jc_recruit_app/pages/cart_page.dart';
-import 'package:jc_recruit_app/pages/home_screen.dart';
-import 'package:jc_recruit_app/pages/starting_page.dart';
+import 'package:jc_recruit_app/ui/pages/auth/signin_page.dart';
+import 'package:jc_recruit_app/ui/pages/auth/signup_page.dart';
+import 'package:jc_recruit_app/ui/pages/cart/cart_page.dart';
+import 'package:jc_recruit_app/ui/pages/home/home_screen.dart';
+import 'package:jc_recruit_app/ui/pages/starting_page.dart';
 
 enum AppRoutes {
   SIGN_UP('/auth/sign_up'),
@@ -48,9 +49,11 @@ GoRouter getMyRouter(bool loggedIn) {
     ),
     ShellRoute(
         builder: (_, __, child) => MultiBlocProvider(providers: [
-              BlocProvider(create: (context) => FoodBloc()..add(GetFoods())),
+              BlocProvider(create: (_) => FoodBloc()..add(GetFoods())),
               BlocProvider(
-                  create: (context) => CartBloc()..add(GetCartFromFirebase()))
+                  create: (_) => CategoryBloc()..add(const GetCategories())),
+              BlocProvider(
+                  create: (_) => CartBloc()..add(GetCartFromFirebase()))
             ], child: child),
         routes: [
           GoRoute(

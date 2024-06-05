@@ -2,12 +2,14 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jc_recruit_app/bloc/cart/cart_bloc.dart';
 import 'package:jc_recruit_app/bloc/food/food_bloc.dart';
 import 'package:jc_recruit_app/models/food.dart';
-import 'package:jc_recruit_app/widgets/cart_item_tile.dart';
+import 'package:jc_recruit_app/ui/pages/cart/cart_page_shimmer.dart';
+import 'package:jc_recruit_app/ui/pages/cart/widgets/cart_item_tile.dart';
 
 class CartPage extends StatelessWidget {
   const CartPage({super.key});
@@ -38,8 +40,32 @@ class CartPage extends StatelessWidget {
       body: BlocBuilder<CartBloc, CartState>(
         buildWhen: (_, __) => context.read<FoodBloc>().backupFood.isNotEmpty,
         builder: (context, state) {
+          if (state is CartEmpty) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assets/empty_cart.png',
+                    width: 80,
+                    height: 80,
+                    color: Colors.white.withOpacity(0.75),
+                  ),
+                  Text(
+                    "Add something\nto cart",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.white.withOpacity(0.75),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }
+
           List<FoodItem> foodList = context.read<FoodBloc>().backupFood;
-          print(state);
+
           if (state is CartLoaded && foodList.isNotEmpty) {
             Map<String, FoodItem> foodMap = {
               for (var food in foodList) food.id: food
@@ -79,8 +105,8 @@ class CartPage extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: Colors.grey.shade900,
                     borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(16),
-                      topRight: Radius.circular(16),
+                      topLeft: Radius.circular(32),
+                      topRight: Radius.circular(32),
                     ),
                   ),
                   child: Column(
@@ -142,6 +168,30 @@ class CartPage extends StatelessWidget {
                                   fontWeight: FontWeight.bold)),
                         ],
                       ),
+                      const SizedBox(height: 16),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xff2846A8),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 16,
+                              horizontal: 32,
+                            ),
+                          ),
+                          child: Text(
+                            "Checkout",
+                            style: TextStyle(
+                              color: Colors.white.withOpacity(0.87),
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -149,9 +199,7 @@ class CartPage extends StatelessWidget {
             );
           }
 
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
+          return const CartPageShimmer();
         },
       ),
     );

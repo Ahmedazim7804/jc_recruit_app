@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jc_recruit_app/router/router.dart';
-import 'package:jc_recruit_app/widgets/devcomm_logo.dart';
+import 'package:jc_recruit_app/ui/common_widgets/devcomm_logo.dart';
 
 class StartPage extends StatelessWidget {
   const StartPage({super.key});

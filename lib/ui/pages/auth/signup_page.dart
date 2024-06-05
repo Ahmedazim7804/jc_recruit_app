@@ -5,9 +5,9 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jc_recruit_app/router/router.dart';
-import 'package:jc_recruit_app/widgets/auth/error_dialog.dart';
-import 'package:jc_recruit_app/widgets/devcomm_logo.dart';
-import 'package:jc_recruit_app/widgets/input_widget.dart';
+import 'package:jc_recruit_app/ui/pages/auth/widgets/error_dialog.dart';
+import 'package:jc_recruit_app/ui/common_widgets/devcomm_logo.dart';
+import 'package:jc_recruit_app/ui/common_widgets/input_widget.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
 class SignUpPage extends StatefulWidget {

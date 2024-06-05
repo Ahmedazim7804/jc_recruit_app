@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jc_recruit_app/bloc/food/food_bloc.dart';
 import 'package:jc_recruit_app/models/food.dart';
-import 'package:jc_recruit_app/widgets/food_tile.dart';
+import 'package:jc_recruit_app/ui/pages/home/widgets/food_tile.dart';
+import 'package:jc_recruit_app/ui/pages/home/widgets/food_widget_shimmer.dart';
 import 'package:shimmer/shimmer.dart';
 
 class FoodListWidget extends StatelessWidget {
@@ -71,19 +72,7 @@ class FoodListWidget extends StatelessWidget {
                   );
                 }
 
-                return Shimmer.fromColors(
-                  baseColor: Colors.grey[700]!,
-                  highlightColor: Colors.grey[500]!,
-                  enabled: true,
-                  child: ListView.separated(
-                    shrinkWrap: true,
-                    itemCount: 3,
-                    separatorBuilder: (context, index) => const Divider(),
-                    itemBuilder: (context, index) {
-                      return const FoodTileShimmer();
-                    },
-                  ),
-                );
+                return const FoodTileShimmer();
               },
             ),
           )

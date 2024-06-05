@@ -5,6 +5,7 @@ import 'package:jc_recruit_app/bloc/cart/cart_bloc.dart';
 import 'package:jc_recruit_app/models/food.dart';
 import 'package:jc_recruit_app/repositories/food_repository.dart';
 import 'package:jc_recruit_app/utils/enum.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class CartItemTile extends StatefulWidget {
   const CartItemTile(
@@ -45,8 +46,9 @@ class _CartItemTileState extends State<CartItemTile> {
         ),
         leading: ClipOval(
           clipBehavior: Clip.antiAlias,
-          child: Image.asset(
-            'assets/dorito.jpg',
+          child: FadeInImage.memoryNetwork(
+            placeholder: kTransparentImage,
+            image: widget.foodItem.imageUrl,
             width: 64,
             height: 64,
             fit: BoxFit.cover,
