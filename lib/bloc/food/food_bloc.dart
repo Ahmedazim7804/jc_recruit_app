@@ -20,6 +20,8 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
       FoodRepository(FirebaseFirestore.instance);
 
   List<FoodItem> backupFood = [];
+  String _searchQuery = "";
+  List<String> _selectedCategoriesId = [];
 
   void _manageGetFoodsEvent(GetFoods event, Emitter<FoodState> emit) async {
     emit(FoodListLoading());
@@ -34,27 +36,48 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
     });
   }
 
+  void filterAndEmit(Emitter<FoodState> emit) {
+    final Set<FoodItem> filteredBySearch = _filterBySearch();
+    final Set<FoodItem> filteredByCategories = _filterByCategories();
+
+    final List<FoodItem> filteredFoods =
+        filteredBySearch.intersection(filteredByCategories).toList();
+
+    emit(FoodList(filteredFoods));
+  }
+
+  Set<FoodItem> _filterBySearch() {
+    if (_searchQuery.isEmpty) {
+      return backupFood.toSet();
+    }
+
+    return backupFood
+        .where((food) => food.name.toLowerCase().contains(_searchQuery))
+        .toSet();
+  }
+
+  Set<FoodItem> _filterByCategories() {
+    if (_selectedCategoriesId.isEmpty) {
+      return backupFood.toSet();
+    }
+
+    return backupFood
+        .where((food) => _selectedCategoriesId.contains(food.category.value))
+        .toSet();
+  }
+
   void _manageSearchFoodsEvent(
-      SearchFoods event, Emitter<FoodState> emit) async {
+      SearchFoods event, Emitter<FoodState> emitter) async {
     if (state is! FoodList) {
       return;
     }
 
-    if (event.query.isEmpty) {
-      emit(FoodList(backupFood));
-      return;
-    }
+    _searchQuery = event.query;
 
-    final foodList = (state as FoodList).foods;
-
-    final List<FoodItem> filteredFoodList = foodList
-        .where((food) => food.name.toLowerCase().contains(event.query))
-        .toList();
-
-    emit(FoodList(filteredFoodList));
+    filterAndEmit(emitter);
   }
 
-  void _manageFilterFoodsEvent(FilterFoods event, Emitter<FoodState> emit) {
+  void _manageFilterFoodsEvent(FilterFoods event, Emitter<FoodState> emitter) {
     if (state is FoodListEmpty) {
       return;
     }
@@ -63,12 +86,10 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
       return;
     }
 
-    List<String> categoriesIds =
+    _selectedCategoriesId =
         event.categories.map((e) => e.name.toLowerCase()).toList();
 
-    emit(FoodList(backupFood
-        .where((food) => categoriesIds.contains(food.category.value))
-        .toList()));
+    filterAndEmit(emitter);
   }
 
   void _manageResetFilterFoodsEvent(

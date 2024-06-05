@@ -39,14 +39,9 @@ class FoodListWidget extends StatelessWidget {
             child: BlocListener<CategoryBloc, CategoryState>(
               listener: (context, state) {
                 if (state is CategoriesLoaded) {
-                  if (state.selectedCategories != null &&
-                      state.selectedCategories!.isNotEmpty) {
-                    context
-                        .read<FoodBloc>()
-                        .add(FilterFoods(state.selectedCategories!));
-                  } else {
-                    context.read<FoodBloc>().add(ResetFilters());
-                  }
+                  context
+                      .read<FoodBloc>()
+                      .add(FilterFoods(state.selectedCategories ?? []));
                 }
               },
               child: BlocBuilder<FoodBloc, FoodState>(
