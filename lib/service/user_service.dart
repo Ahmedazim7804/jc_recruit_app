@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class UserService extends ChangeNotifier {
+class UserService {
   final _getIt = GetIt.instance;
 
   String? name;
@@ -33,19 +33,16 @@ class UserService extends ChangeNotifier {
     await _getIt<SharedPreferences>().setString('name', name);
     await _getIt<SharedPreferences>().setString('email', email);
     await _getIt<SharedPreferences>().setString('studentId', studentId);
-
-    notifyListeners();
   }
 
   void _clearDetails() {
     name = null;
     email = null;
     studentId = null;
-    notifyListeners();
   }
 
-  void signOut() {
-    FirebaseAuth.instance.signOut();
+  Future<void> signOut() async {
+    await FirebaseAuth.instance.signOut();
     _clearDetails();
   }
 }

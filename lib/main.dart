@@ -36,6 +36,7 @@ void main() async {
     overlayColor: const Color.fromARGB(128, 23, 23, 23),
     overlayWidgetBuilder: (_) => const OverlayWidget(),
     child: MaterialApp.router(
+      debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.dark,
       theme: getAppTheme(),
       routerConfig: getMyRouter(loggedIn),

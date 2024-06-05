@@ -20,6 +20,7 @@ class FoodCategoryItemWidget extends StatelessWidget {
       child: Column(
         children: [
           InkWell(
+            borderRadius: BorderRadius.circular(40),
             onTap: () {
               context
                   .read<CategoryBloc>()

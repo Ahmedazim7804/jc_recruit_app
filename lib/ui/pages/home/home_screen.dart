@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jc_recruit_app/router/router.dart';
+import 'package:jc_recruit_app/service/user_service.dart';
 import 'package:jc_recruit_app/ui/pages/home/widgets/category_widget.dart';
 import 'package:jc_recruit_app/ui/pages/home/widgets/food_search.dart';
 import 'package:jc_recruit_app/ui/pages/home/widgets/food_widget.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -30,11 +33,22 @@ class HomeScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Image.asset('assets/logo.png', height: 80, width: 120),
+                  // IconButton.filled(
+                  //     style: IconButton.styleFrom(
+                  //         backgroundColor: const Color(0xff2846A8)),
+                  //     onPressed: () {},
+                  //     icon: const Icon(Icons.history)),
                   IconButton.filled(
                       style: IconButton.styleFrom(
                           backgroundColor: const Color(0xff2846A8)),
-                      onPressed: () {},
-                      icon: const Icon(Icons.history))
+                      onPressed: () async {
+                        context.loaderOverlay.show();
+                        await GetIt.instance.get<UserService>().signOut();
+                        context.loaderOverlay.hide();
+
+                        context.pushReplacement(AppRoutes.START_PAGE.value);
+                      },
+                      icon: const Icon(Icons.logout))
                 ],
               ),
               Text(
