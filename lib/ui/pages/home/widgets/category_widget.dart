@@ -24,14 +24,10 @@ class CategoryWidget extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.arrow_forward,
-                color: Colors.white.withOpacity(0.87),
-              ),
-            ),
           ],
+        ),
+        const SizedBox(
+          height: 8,
         ),
         BlocBuilder<CategoryBloc, CategoryState>(
           builder: (context, state) {

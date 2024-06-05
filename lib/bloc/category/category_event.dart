@@ -10,3 +10,9 @@ sealed class CategoryEvent extends Equatable {
 class GetCategories extends CategoryEvent {
   const GetCategories();
 }
+
+class ToggleSelectCategory extends CategoryEvent {
+  const ToggleSelectCategory({required this.categoryItem});
+
+  final CategoryItem categoryItem;
+}

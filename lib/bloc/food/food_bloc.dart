@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:jc_recruit_app/models/category.dart';
 import 'package:jc_recruit_app/models/food.dart';
 import 'package:jc_recruit_app/repositories/food_repository.dart';
 import 'package:meta/meta.dart';
@@ -11,6 +12,8 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
   FoodBloc() : super(FoodListLoading()) {
     on<GetFoods>(_manageGetFoodsEvent);
     on<SearchFoods>(_manageSearchFoodsEvent);
+    on<FilterFoods>(_manageFilterFoodsEvent);
+    on<ResetFilters>(_manageResetFilterFoodsEvent);
   }
 
   final FoodRepository foodRepository =
@@ -51,20 +54,25 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
     emit(FoodList(filteredFoodList));
   }
 
-  // void _manageChangeFoodItemQuantityEvent(
-  //     ChangeFoodItemQuantity event, Emitter<FoodState> emit) {
-  //   final foodList = (state as FoodList).foods;
+  void _manageFilterFoodsEvent(FilterFoods event, Emitter<FoodState> emit) {
+    if (state is FoodListEmpty) {
+      return;
+    }
 
-  //   final updatedFoodList = foodList.map((food) {
-  //     if (food.id == event.foodItem.id) {
-  //       return food.copyWith(quantity: event.quantity);
-  //     }
+    if (state is FoodListLoading) {
+      return;
+    }
 
-  //     return food;
-  //   }).toList();
+    List<String> categoriesIds =
+        event.categories.map((e) => e.name.toLowerCase()).toList();
 
-  //   backupFood = foodList;
+    emit(FoodList(backupFood
+        .where((food) => categoriesIds.contains(food.category.value))
+        .toList()));
+  }
 
-  //   emit(FoodList(updatedFoodList));
-  // }
+  void _manageResetFilterFoodsEvent(
+      ResetFilters event, Emitter<FoodState> emit) {
+    emit(FoodList(backupFood));
+  }
 }

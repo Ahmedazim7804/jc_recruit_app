@@ -10,3 +10,11 @@ final class SearchFoods extends FoodEvent {
 
   final String query;
 }
+
+final class FilterFoods extends FoodEvent {
+  FilterFoods(this.categories);
+
+  final List<CategoryItem> categories;
+}
+
+final class ResetFilters extends FoodEvent {}

@@ -13,8 +13,18 @@ final class CategoryListEmpty extends CategoryState {}
 
 final class CategoriesLoaded extends CategoryState {
   final List<CategoryItem> categories;
+  final List<CategoryItem>? selectedCategories;
 
-  const CategoriesLoaded(this.categories);
+  const CategoriesLoaded({required this.categories, this.selectedCategories});
+
+  CategoriesLoaded copyWith({
+    List<CategoryItem>? categories,
+    List<CategoryItem>? selectedCategories,
+  }) {
+    return CategoriesLoaded(
+        categories: categories ?? [],
+        selectedCategories: selectedCategories ?? []);
+  }
 
   @override
   List<Object> get props => [categories];

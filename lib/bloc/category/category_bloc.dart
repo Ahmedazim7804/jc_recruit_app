@@ -11,6 +11,7 @@ part 'category_state.dart';
 class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   CategoryBloc() : super(CategoryLoading()) {
     on<GetCategories>(_handleGetCategories);
+    on<ToggleSelectCategory>(_handleToggleSelectCategory);
   }
 
   final CategoryRepository _categoryRepository = CategoryRepository(
@@ -25,8 +26,27 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
         if (data.isEmpty) {
           return CategoryListEmpty();
         }
-        return CategoriesLoaded(data);
+
+        return CategoriesLoaded(categories: data);
       },
     );
+  }
+
+  void _handleToggleSelectCategory(
+      ToggleSelectCategory event, Emitter<CategoryState> emit) {
+    final List<CategoryItem> newCategoriesList =
+        (state as CategoriesLoaded).categories.map((e) {
+      if (e.id == event.categoryItem.id) {
+        return e.copyWith(selected: !e.selected);
+      }
+
+      return e;
+    }).toList();
+
+    final List<CategoryItem> selectedCategories =
+        newCategoriesList.where((e) => e.selected).toList();
+
+    emit(CategoriesLoaded(
+        categories: newCategoriesList, selectedCategories: selectedCategories));
   }
 }
