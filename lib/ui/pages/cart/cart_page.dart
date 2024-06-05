@@ -71,6 +71,12 @@ class CartPage extends StatelessWidget {
               for (var food in foodList) food.id: food
             };
 
+            int subtotal = state.cartItems.fold(
+                0,
+                (previousValue, element) =>
+                    previousValue +
+                    (foodMap[element.foodId]!.price * element.quantity));
+
             return Column(
               children: [
                 Expanded(
@@ -121,7 +127,7 @@ class CartPage extends StatelessWidget {
                               fontSize: 16,
                             ),
                           ),
-                          Text("₹220",
+                          Text("₹${subtotal.toString()}",
                               style: TextStyle(
                                 color: Colors.white.withOpacity(0.87),
                                 fontSize: 16,
@@ -161,7 +167,7 @@ class CartPage extends StatelessWidget {
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold),
                           ),
-                          Text("₹220",
+                          Text("₹${subtotal.toString()}",
                               style: TextStyle(
                                   color: Colors.white.withOpacity(0.87),
                                   fontSize: 18,

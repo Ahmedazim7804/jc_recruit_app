@@ -1,15 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jc_recruit_app/bloc/cart/cart_bloc.dart';
-import 'package:jc_recruit_app/bloc/food/food_bloc.dart';
 import 'package:jc_recruit_app/models/food.dart';
 import 'package:jc_recruit_app/repositories/food_repository.dart';
 import 'package:jc_recruit_app/ui/common_widgets/network_image_shimmer.dart';
 import 'package:jc_recruit_app/utils/enum.dart';
 import 'package:jc_recruit_app/ui/common_widgets/snackbars.dart';
-import 'package:transparent_image/transparent_image.dart';
 
 class FoodItemTile extends StatefulWidget {
   const FoodItemTile({super.key, required this.foodItem});
