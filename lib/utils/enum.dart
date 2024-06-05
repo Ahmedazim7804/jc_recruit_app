@@ -1,26 +1,18 @@
-// enum FoodCategory {
-//   DRINKS('drinks'),
-//   DAIRY('dairy'),
-//   FOOD('food'),
-//   MUNCHIES('munchies');
+enum SortBy {
+  NAME('name'),
+  PRICE('price');
 
-//   final String value;
-//   const FoodCategory(this.value);
+  final String value;
+  const SortBy(this.value);
+}
 
-//   static FoodCategory fromValue(String value) {
-//     if (value == 'drinks') {
-//       return FoodCategory.DRINKS;
-//     } else if (value == 'dairy') {
-//       return FoodCategory.DAIRY;
-//     } else if (value == 'food') {
-//       return FoodCategory.FOOD;
-//     } else if (value == 'munchies') {
-//       return FoodCategory.MUNCHIES;
-//     } else {
-//       throw Exception('Invalid value: $value');
-//     }
-//   }
-// }
+enum Sort {
+  ASCENDING(1),
+  DESCENDING(2);
+
+  final int value;
+  const Sort(this.value);
+}
 
 enum CartItemChange {
   ADD(1),

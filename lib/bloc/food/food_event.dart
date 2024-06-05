@@ -17,4 +17,10 @@ final class FilterFoods extends FoodEvent {
   final List<CategoryItem> categories;
 }
 
+final class SortFoods extends FoodEvent {
+  SortFoods(this.sortBy);
+
+  final SortBy sortBy;
+}
+
 final class ResetFilters extends FoodEvent {}

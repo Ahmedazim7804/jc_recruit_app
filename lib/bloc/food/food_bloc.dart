@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:jc_recruit_app/models/category.dart';
 import 'package:jc_recruit_app/models/food.dart';
 import 'package:jc_recruit_app/repositories/food_repository.dart';
+import 'package:jc_recruit_app/utils/enum.dart';
 import 'package:meta/meta.dart';
 
 part 'food_event.dart';
@@ -14,6 +15,7 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
     on<SearchFoods>(_manageSearchFoodsEvent);
     on<FilterFoods>(_manageFilterFoodsEvent);
     on<ResetFilters>(_manageResetFilterFoodsEvent);
+    on<SortFoods>(_manageSortFoodsEvent);
   }
 
   final FoodRepository foodRepository =
@@ -22,6 +24,7 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
   List<FoodItem> backupFood = [];
   String _searchQuery = "";
   List<String> _selectedCategoriesId = [];
+  Sort? sort;
 
   void _manageGetFoodsEvent(GetFoods event, Emitter<FoodState> emit) async {
     emit(FoodListLoading());
@@ -89,6 +92,45 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
     _selectedCategoriesId = event.categories.map((e) => e.id).toList();
 
     filterAndEmit(emitter);
+  }
+
+  void _manageSortFoodsEvent(SortFoods event, Emitter<FoodState> emit) {
+    if (state.runtimeType != FoodList) {
+      return;
+    }
+
+    if (sort == null || sort == Sort.DESCENDING) {
+      sort = Sort.ASCENDING;
+    } else {
+      sort = Sort.DESCENDING;
+    }
+
+    List<FoodItem> sortedFoods = (state as FoodList).foods;
+
+    switch (event.sortBy) {
+      case SortBy.NAME:
+        sortedFoods.sort(
+          (a, b) {
+            if (sort == Sort.ASCENDING) {
+              return a.name.toLowerCase().compareTo(b.name.toLowerCase());
+            }
+
+            return b.name.toLowerCase().compareTo(a.name.toLowerCase());
+          },
+        );
+        break;
+      case SortBy.PRICE:
+        sortedFoods.sort((a, b) {
+          if (sort == Sort.ASCENDING) {
+            return a.price.compareTo(b.price);
+          }
+
+          return b.price.compareTo(a.price);
+        });
+      default:
+    }
+
+    emit(FoodList(sortedFoods));
   }
 
   void _manageResetFilterFoodsEvent(
