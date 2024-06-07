@@ -17,8 +17,9 @@ class SignInPage extends StatefulWidget {
 
 class _SignInPageState extends State<SignInPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final emailRegex = RegExp(
+  final nsutEmailRegex = RegExp(
       r"^[a-zA-Z0-9_.+-]+@(?:(?:[a-zA-Z0-9-]+.)?[a-zA-Z]+.)?(nsut).ac.in$");
+  final emailRegex = RegExp(r"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -28,8 +29,12 @@ class _SignInPageState extends State<SignInPage> {
       return "Email is required";
     }
 
-    if (emailRegex.hasMatch(input)) {
+    if (nsutEmailRegex.hasMatch(input)) {
       return null;
+    }
+
+    if (emailRegex.hasMatch(input)) {
+      return "Only NSUT email is allowed";
     }
 
     return "Invalid email";
@@ -137,7 +142,7 @@ class _SignInPageState extends State<SignInPage> {
                         const SizedBox(height: 16),
                         InputWidget(
                             icon: Icons.email_outlined,
-                            hintText: "Enter your email",
+                            hintText: "Enter your nsut email",
                             label: "Email",
                             keyboardType: TextInputType.emailAddress,
                             validator: emailIsValid,
